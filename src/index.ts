@@ -18,8 +18,8 @@ app.use("/api", Router);
 
 AppDataSource.initialize()
   .then(async (_connection) => {
-    app.listen(process.env.EXPRESS_PORT, () => {
-      console.log(`Server Up in ${process.env.EXPRESS_PORT} 🚀`);
+    app.listen(process.env.PORT, () => {
+      console.log(`Server Up in ${process.env.PORT} 🚀`);
     });
   })
   .catch((error: Error) => console.log(error));

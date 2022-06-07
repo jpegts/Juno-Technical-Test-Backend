@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { Task } from "../entity/Task";
 
 export const get = (_req: Request, res: Response) => {
-  res.end("Hello there this is my Task Service !.");
+  res.send(
+    "<center><h1> Welcome to tasks API - Juno's Technical Test 👋</h1></center>"
+  );
 };
 
 /* export const updateCounter = async (req: Request, res: Response) => {
@@ -21,20 +23,23 @@ export const get = (_req: Request, res: Response) => {
     res.status(500).send({ message: error.message });
   }
 };
-
-export const addCounter = async (req: Request, res: Response) => {
+*/
+export const addTask = async (req: Request, res: Response) => {
   try {
-    const counter = Counter.create({
-      count: req.body.count,
+    const task = Task.create({
+      name: req.body.name,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      isDone: req.body.isDone,
     });
 
-    await counter.save();
-    res.send(counter);
+    await task.save();
+    res.send(task);
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: error.message });
   }
-}; */
+};
 
 export async function getTasks(_req: Request, res: Response) {
   const tasks = await Task.find();
