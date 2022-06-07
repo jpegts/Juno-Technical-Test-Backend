@@ -7,23 +7,49 @@ export const get = (_req: Request, res: Response) => {
   );
 };
 
-/* export const updateCounter = async (req: Request, res: Response) => {
+export const updateTask = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { newCount } = req.body;
+  const newTask = req.body;
 
   try {
-    const counter = await Counter.findOneOrFail({ id: parseInt(id) });
-    counter.count = newCount;
+    const task = await Task.findOneOrFail({
+      where: {
+        _id: id,
+      },
+    });
+    task.name = newTask.name;
+    task.description = newTask.description;
+    task.deadline = newTask.deadline;
+    task.isDone = newTask.isDone;
 
-    await counter.save();
+    await task.save();
 
-    res.send(counter);
+    res.send(task);
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: error.message });
   }
 };
-*/
+
+export async function deleteTask(req: Request, res: Response) {
+  const uuid = req.params.uuid;
+  const successMsg = { message: "Task deleted" };
+  try {
+    const task = await Task.findOneOrFail({
+      where: {
+        _id: uuid,
+      },
+    });
+    await task.remove();
+    return res.status(204).json(successMsg);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .json({ error: " Something went wrong while deleting ..." });
+  }
+}
+
 export const addTask = async (req: Request, res: Response) => {
   try {
     const task = Task.create({
